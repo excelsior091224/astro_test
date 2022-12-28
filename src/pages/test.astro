@@ -4,10 +4,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
-//const serviceDomain="import.meta.env.MICROCMS_SERVICE_DOMAIN";
-const serviceDomain=process.env.MICROCMS_SERVICE_DOMAIN;
-const node_version=process.env.NODE_VERSION;
-const node_version_2=import.meta.env.NODE_VERSION;
+const serviceDomain1=import.meta.env.MICROCMS_SERVICE_DOMAIN;
+const serviceDomain2=process.env.MICROCMS_SERVICE_DOMAIN;
+const serviceDomain3="process.env.MICROCMS_SERVICE_DOMAIN";
+//const node_version=process.env.NODE_VERSION;
+//const node_version_2=import.meta.env.NODE_VERSION;
 
 //microCMS呼び出し
 //import { getBlogs } from "../library/microcms";
@@ -47,8 +48,9 @@ const node_version_2=import.meta.env.NODE_VERSION;
 	<body>
 		<Header />
 		<main>
-			{serviceDomain}
-			{node_version}
+			<p>sd1:{serviceDomain1}</p>
+			<p>sd2:{serviceDomain2}</p>
+			<p>sd3:{serviceDomain3}</p>
 		</main>
 		<!-- <main>
 			<section>

@@ -14,10 +14,10 @@ export default defineConfig({
   output: "server",
   //adapter: cloudflare({ mode: "directory" }),
   adapter: cloudflare(),
-  //vite: {
-    //define: {
-        //"import.meta.env.MICROCMS_SERVICE_DOMAIN": process.env.MICROCMS_SERVICE_DOMAIN,
-        //"import.meta.env.MICROCMS_API_KEY":process.env.MICROCMS_API_KEY,
-    //},
-  //},
+  vite: {
+    define: {
+        "process.env.MICROCMS_SERVICE_DOMAIN": process.env.MICROCMS_SERVICE_DOMAIN,
+        "process.env.MICROCMS_API_KEY":process.env.MICROCMS_API_KEY,
+    },
+  },
 });
