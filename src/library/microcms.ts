@@ -1,8 +1,8 @@
 import { createClient, MicroCMSQueries } from "microcms-js-sdk";
-// const client = createClient({
-//   serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-//   apiKey: import.meta.env.MICROCMS_API_KEY,
-// });
+const client = createClient({
+  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: import.meta.env.MICROCMS_API_KEY,
+});
 
 export type Blog = {
   id: string;
@@ -26,9 +26,9 @@ export type BlogResponse = {
 };
 
 export const getBlogs = async (queries?: MicroCMSQueries) => {
-  const client = createClient({
-    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: import.meta.env.MICROCMS_API_KEY,
+//  const client = createClient({
+//    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+//    apiKey: import.meta.env.MICROCMS_API_KEY,
   });
   return await client.get<BlogResponse>({ endpoint: "blogs", queries });
 };
@@ -36,9 +36,9 @@ export const getBlogDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-  const client = createClient({
-    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: import.meta.env.MICROCMS_API_KEY,
+//  const client = createClient({
+//    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+//    apiKey: import.meta.env.MICROCMS_API_KEY,
   });
   return await client.getListDetail<Blog>({
     endpoint: "blogs",
