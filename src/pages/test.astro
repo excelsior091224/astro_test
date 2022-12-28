@@ -4,7 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
-const serviceDomain1=import.meta.env.MICROCMS_SERVICE_DOMAIN;
+//const serviceDomain1=import.meta.env.MICROCMS_SERVICE_DOMAIN;
 const serviceDomain2=process.env.MICROCMS_SERVICE_DOMAIN;
 const serviceDomain3="process.env.MICROCMS_SERVICE_DOMAIN";
 //const node_version=process.env.NODE_VERSION;
@@ -48,7 +48,7 @@ const serviceDomain3="process.env.MICROCMS_SERVICE_DOMAIN";
 	<body>
 		<Header />
 		<main>
-			<p>sd1:{serviceDomain1}</p>
+			<p>sd1:{}</p>
 			<p>sd2:{serviceDomain2}</p>
 			<p>sd3:{serviceDomain3}</p>
 		</main>
