@@ -6,6 +6,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
 //const serviceDomain="import.meta.env.MICROCMS_SERVICE_DOMAIN";
 const serviceDomain=process.env.MICROCMS_SERVICE_DOMAIN;
+const node_version=process.env.NODE_VERSION;
+const node_version_2=import.meta.env.NODE_VERSION;
 
 //microCMS呼び出し
 //import { getBlogs } from "../library/microcms";
@@ -46,6 +48,7 @@ const serviceDomain=process.env.MICROCMS_SERVICE_DOMAIN;
 		<Header />
 		<main>
 			{serviceDomain}
+			{node_version}
 		</main>
 		<!-- <main>
 			<section>
