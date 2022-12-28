@@ -5,9 +5,59 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
 //microCMS呼び出し
-import { getBlogs } from "../library/microcms";
-// import { getBlogs } from "./microcms";
+//import { getBlogs } from "../library/microcms";
+
+import { createClient, MicroCMSQueries } from "microcms-js-sdk";
+const client = createClient({
+  serviceDomain: "import.meta.env.MICROCMS_SERVICE_DOMAIN",
+  apiKey: "import.meta.env.MICROCMS_API_KEY",
+});
+
+export type Blog = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  title: string;
+  content: string;
+  eyecatch: {
+    url: string;
+    height: number;
+    width: number;
+  };
+};
+export type BlogResponse = {
+  totalCount: number;
+  offset: number;
+  limit: number;
+  contents: Blog[];
+};
+
+export const getBlogs = async (queries?: MicroCMSQueries) => {
+//  const client = createClient({
+//    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+//    apiKey: import.meta.env.MICROCMS_API_KEY,
+//  });
+  return await client.get<BlogResponse>({ endpoint: "blogs", queries });
+};
+export const getBlogDetail = async (
+  contentId: string,
+  queries?: MicroCMSQueries
+) => {
+//  const client = createClient({
+//    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+//    apiKey: import.meta.env.MICROCMS_API_KEY,
+//  });
+  return await client.getListDetail<Blog>({
+    endpoint: "blogs",
+    contentId,
+    queries,
+  });
+};
+
 const { contents: posts } = await getBlogs({ fields: ["id", "title", "publishedAt"] });
+
 
 // // Use Astro.glob() to fetch all posts, and then sort them by date.
 // const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
