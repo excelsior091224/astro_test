@@ -11,7 +11,7 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap()],
-  output: "server",
+  // output: "server",
   //adapter: cloudflare({ mode: "directory" }),
   // adapter: cloudflare(),
   // vite: {
