@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/BlogPost.astro";
 import { getBlogs, getBlogDetail } from "../../library/microcms";
+import { processer } from "microcms-richedit-processer";
 
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
@@ -24,5 +25,5 @@ const blog = await getBlogDetail(blogId as string);
     pubDate: new Date(blog.publishedAt).toLocaleDateString('ja-JP'),
     updatedDate: new Date(blog.updatedAt).toLocaleDateString('ja-JP'),
 }}>
-  <main set:html={blog.content} />
+  <main set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
 </Layout>
