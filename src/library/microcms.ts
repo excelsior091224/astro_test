@@ -32,20 +32,30 @@ export type BlogResponse = {
 };
 
 export const getBlogs = async (queries?: MicroCMSQueries) => {
-//  const client = createClient({
-//    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-//    apiKey: import.meta.env.MICROCMS_API_KEY,
-//  });
   return await client.get<BlogResponse>({ endpoint: "blogs", queries });
 };
+
+// export const getAllBlogs = async (queries: MicroCMSQueries={limit:10, offset:0}) => {
+export const getAllBlogs = async (queries?: MicroCMSQueries) => {
+  const data = await client.get<BlogResponse>({ endpoint: "blogs", queries})
+
+  if (data.offset + data.limit < data.totalCount) {
+    const result:BlogResponse = await getAllBlogs({limit:data.limit, offset:data.offset + data.limit})
+    return {
+        offset:result.offset,
+        limit:result.limit,
+        contents: [...data.contents, ...result.contents],
+        totalCount: result.totalCount,
+      };
+  }
+
+  return data
+};
+
 export const getBlogDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-//  const client = createClient({
-//    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-//    apiKey: import.meta.env.MICROCMS_API_KEY,
-//  });
   return await client.getListDetail<Blog>({
     endpoint: "blogs",
     contentId,

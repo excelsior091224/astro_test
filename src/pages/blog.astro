@@ -5,9 +5,10 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
 //microCMS呼び出し
-import { getBlogs } from "../library/microcms";
+import { getAllBlogs } from "../library/microcms";
 
-const { contents: posts } = await getBlogs({ fields: ["id", "title", "publishedAt"] });
+// const { contents: posts } = await getAllBlogs({ fields: ["id", "title", "publishedAt"] , orders:'-publishedAt'});
+const { contents: posts, totalCount } = await getAllBlogs({ orders:'-publishedAt'});
 
 
 // // Use Astro.glob() to fetch all posts, and then sort them by date.
@@ -41,6 +42,7 @@ const { contents: posts } = await getBlogs({ fields: ["id", "title", "publishedA
 	<body>
 		<Header />
 		<main>
+			<h1>{totalCount}</h1>
 			<section>
 				<ul>
 					{
