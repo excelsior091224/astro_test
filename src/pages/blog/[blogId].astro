@@ -34,7 +34,7 @@ let cardDatas: any[] = [];
 const temps: any = [];
 links.map((url) => {
 async () => {
-const result = await unfurl(url.url);
+const result = await unfurl(url);
 temps.push(result);
 }
 })
