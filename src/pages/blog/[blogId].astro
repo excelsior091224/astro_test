@@ -27,16 +27,16 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
 const test_ogp = unfurl(test_url);
 
-let cardDatas: any[] = [];
-const temps: any = [];
-urls.map( (url) => {
-  const options = { url: url };
-  ogs(options).then((data) => {
-    const { error, result, response } = data
-    temps.push([error,result]);
-  })
-})
-cardDatas = temps.filter((temp: any) => temp[0] !== true);
+//let cardDatas: any[] = [];
+//const temps: any = [];
+//urls.map( (url) => {
+//  const options = { url: url };
+//  ogs(options).then((data) => {
+//    const { error, result, response } = data
+//    temps.push([error,result]);
+//  })
+//})
+//cardDatas = temps.filter((temp: any) => temp[0] !== true);
 
 //urls.map((url) => {
 //  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
@@ -57,8 +57,6 @@ cardDatas = temps.filter((temp: any) => temp[0] !== true);
   <div>{JSON.stringify(test_ogp)}</div>
   <div id="test"></div>
   <div>{JSON.stringify(urls)}</div>
-  <div>{JSON.stringify(temps)}</div>
-  <div>{JSON.stringify(cardDatas)}</div>
 </Layout>
 <script>
 import { unfurl } from 'unfurl.js';
