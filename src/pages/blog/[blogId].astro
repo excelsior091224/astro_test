@@ -25,7 +25,7 @@ const blog = await getBlogDetail(blogId as string);
 
 const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
-//const test_ogp = await unfurl(test_url);
+const test_ogp = await unfurl(test_url);
 
 //if (Array.isArray(urls)) {
 //urls.map( (url) => {
@@ -48,6 +48,7 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 }}>
   <main id="main" set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
   <!--<BlogMain content={blog.content as string}/>-->
+  <div>{typeof(blog.content)}</div>
   <div>{JSON.stringify(test_ogp)}</div>
   <div>{typeof(urls)}</div>
   <div>{Array.isArray(urls)}</div>
