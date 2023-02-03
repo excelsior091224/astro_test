@@ -42,7 +42,7 @@ export default function BlogContents(content: string) {
   //const window = new Window();
   //const document = window.document;
   //document.body.innerHTML = content;
-  /*const links = document.querySelectorAll('a').map((data) => {
+  const links = document.querySelectorAll('a').map((data) => {
     const url = data.getAttribute('href').indexOf('http') === -1 ? `${"astro-test-b4j.pages.dev"}${data.getAttribute('href')}` : data.getAttribute('href');
     return { url: url }
   });
@@ -101,6 +101,6 @@ export default function BlogContents(content: string) {
   // }
 
   return (
-    <main>{parse(content, { replace })}</main>
+    <main>{parse(content)}</main>
   );
 }
