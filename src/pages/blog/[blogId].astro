@@ -27,14 +27,14 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
 const test_ogp = await unfurl(test_url);
 
-for (const url of Object.entries(urls)) {
-  async ()=>{
-  result = await unfurl(url);
-  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
-  rp_str = `<a href=${result.open_graph.url} target: "_blank" rel: "noopener nofollow"><div><img src=${result.open_graph.images.url} alt="" /></div><div><p>${result.open_graph.title && result.open_graph.title}</p><div><p>${result.open_graph.description && result.open_graph.description}</p></div></div></a>`;
+//for (const url of Object.entries(urls)) {
+//  async ()=>{
+//  result = await unfurl(url);
+//  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
+//  rp_str = `<a href=${result.open_graph.url} target: "_blank" rel: "noopener nofollow"><div><img src=${result.open_graph.images.url} alt="" /></div><div><p>${result.open_graph.title && result.open_graph.title}</p><div><p>${result.open_graph.description && result.open_graph.description}</p></div></div></a>`;
   blog.content = blog.content.replace(regexp,rp_str);
-  }
-}
+//  }
+//}
 ---
 
 <Layout content={{
@@ -46,16 +46,10 @@ for (const url of Object.entries(urls)) {
 }}>
   <main set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
   <div>{JSON.stringify(test_ogp)}</div>
-  <div id="test"></div>
+  <div>{typeof(urls)}</div>
+  <div>{Array.isArray(urls)}</div>
   <div>{JSON.stringify(urls)}</div>
 </Layout>
-<script>
-import { unfurl } from 'unfurl.js';
-  const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
-
-const test_ogp2 = unfurl(test_url);
-document.getElementById("test").innerHTML=JSON.stringify(test_ogp2);
-</script>
 <script>
   import "lazysizes";
 </script>
