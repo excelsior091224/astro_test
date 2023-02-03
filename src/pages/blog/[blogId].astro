@@ -23,9 +23,9 @@ const blog = await getBlogDetail(blogId as string);
 
 //const urls = blog.content.match(/(?<=<(p|br)>)(http.*?)(?=<(\/p|br)>)/g);
 
-const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
+// const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
-const test_ogp = await unfurl(test_url);
+// const test_ogp = await unfurl(test_url);
 
 //if (Array.isArray(urls)) {
 //urls.map( (url) => {
@@ -48,9 +48,9 @@ const test_ogp = await unfurl(test_url);
 }}>
   <main id="main" set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
   <!--<BlogMain content={blog.content as string}/>-->
-  <BlogMain content={blog.content as string}/>
-  <div>{typeof(blog.content)}</div>
-  <div>{JSON.stringify(test_ogp)}</div>
+  <!-- <BlogMain blogId={blogId as string}/> -->
+  <!-- <div>{typeof(blog.content)}</div>
+  <div>{JSON.stringify(test_ogp)}</div> -->
 </Layout>
 <script>
   import "lazysizes";
