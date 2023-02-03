@@ -27,7 +27,7 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
 const test_ogp = await unfurl(test_url);
 
-for (const url of urls) {
+for (const url of Object.keys(urls)) {
   async ()=>{
   result = await unfurl(url);
   const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
