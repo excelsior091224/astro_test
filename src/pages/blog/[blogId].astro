@@ -25,7 +25,7 @@ const urls = blog.content.match(/(?<=<(p|br)>)(http.*?)(?=<(\/p|br)>)/g);
 
 const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
-const test_ogp = unfurl(test_url);
+const test_ogp = await unfurl(test_url);
 
 //let cardDatas: any[] = [];
 //const temps: any = [];
