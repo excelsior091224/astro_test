@@ -39,7 +39,7 @@ const BlogCard = ({ cardData, children }: any) => {
 };
 
 export default function BlogContents(content) {
-  content=content.toString();
+  content=JSON.stringify(content);
   //const window = new Window();
   //const document = window.document;
   //document.body.innerHTML = content;
