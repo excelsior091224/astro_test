@@ -38,7 +38,8 @@ const BlogCard = ({ cardData, children }: any) => {
   );
 };
 
-export default function BlogContents(content: string) {
+export default function BlogContents(content) {
+  content=content.toString();
   //const window = new Window();
   //const document = window.document;
   //document.body.innerHTML = content;
@@ -101,6 +102,9 @@ export default function BlogContents(content: string) {
   // }
 
   return (
+    <>
+    <main>{content}</main>
     <main>{typeof(content)}</main>
+    </>
   );
 }
