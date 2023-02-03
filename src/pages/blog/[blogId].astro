@@ -27,10 +27,8 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
 const test_ogp = await unfurl(test_url);
 
-const cardDatas: any[] = [];
-urls.map( (url) => {
+const cardDatas = urls.map( (url) => {
   async ()=>{result = await unfurl(url);}
-  cardDatas.push(result);
 })
 
 urls.map((url) => {
