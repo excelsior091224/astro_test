@@ -27,23 +27,18 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
 const test_ogp = await unfurl(test_url);
 
-//let cardDatas: any[] = [];
-//const temps: any = [];
-//urls.map( (url) => {
-//  const options = { url: url };
-//  ogs(options).then((data) => {
-//    const { error, result, response } = data
-//    temps.push([error,result]);
-//  })
-//})
-//cardDatas = temps.filter((temp: any) => temp[0] !== true);
+const cardDatas: any[] = [];
+urls.map( (url) => {
+  result = await unfurl(url);
+  cardDatas.push(result);
+})
 
-//urls.map((url) => {
-//  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
-//  const cardData = cardDatas.find((value)=>{return value.result.ogUrl===url});
-//  rp_str = `<a href=${cardData.ogUrl}><div><img src=${cardData.ogImage.url} alt="" target: "_blank" rel: "noopener nofollow"/></div><div><p>${cardData.ogTitle && cardData.ogTitle}</p><div><p>${cardData.ogDescription && cardData.ogDescription}</p></div></div></a>`;
-//  blog.content = blog.content.replace(regexp,rp_str);
-//});
+urls.map((url) => {
+  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
+  const cardData = cardDatas.find((value)=>{return value.open_graph.url===url});
+  rp_str = `<a href=${cardData.open_graph.url} target: "_blank" rel: "noopener nofollow"><div><img src=${cardData.open_graph.images.url} alt="" /></div><div><p>${cardData.open_graph.title && cardData.open_graph.title}</p><div><p>${cardData.open_graph.description && cardData.open_graph.description}</p></div></div></a>`;
+  blog.content = blog.content.replace(regexp,rp_str);
+});
 ---
 
 <Layout content={{
