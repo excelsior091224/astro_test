@@ -29,8 +29,8 @@ const test_ogp = await unfurl(test_url);
 
 const cardDatas: any[] = [];
 urls.map( (url) => {
-  async ()=>{result = await unfurl(url);
-  cardDatas.push(result);}
+  async ()=>{result = await unfurl(url);}
+  cardDatas.push(result);
 })
 
 urls.map((url) => {
