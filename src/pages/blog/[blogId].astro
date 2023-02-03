@@ -3,6 +3,8 @@ import Layout from "../../layouts/BlogPost.astro";
 import { getAllBlogs, getBlogDetail } from "../../library/microcms";
 import pkg from 'microcms-richedit-processer';
 const { processer } = pkg;
+import ogs from 'open-graph-scraper';
+import { unfurl } from 'unfurl.js';
 
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
@@ -18,6 +20,30 @@ export async function getStaticPaths() {
 //記事の詳細情報を取得
 const { blogId } = Astro.params;
 const blog = await getBlogDetail(blogId as string);
+
+const urls = blog.content.match(/(?<=<(p|br)>)(http.*?)(?=<(\/p|br)>)/g);
+
+const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
+
+const test_ogp = unfurl(test_url);
+
+let cardDatas: any[] = [];
+const temps: any = [];
+urls.map( (url) => {
+  const options = { url: url };
+  ogs(options).then((data) => {
+    const { error, result, response } = data
+    temps.push([error,result]);
+  })
+})
+cardDatas = temps.filter((temp: any) => temp[0] !== true);
+
+//urls.map((url) => {
+//  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
+//  const cardData = cardDatas.find((value)=>{return value.result.ogUrl===url});
+//  rp_str = `<a href=${cardData.ogUrl}><div><img src=${cardData.ogImage.url} alt="" target: "_blank" rel: "noopener nofollow"/></div><div><p>${cardData.ogTitle && cardData.ogTitle}</p><div><p>${cardData.ogDescription && cardData.ogDescription}</p></div></div></a>`;
+//  blog.content = blog.content.replace(regexp,rp_str);
+//});
 ---
 
 <Layout content={{
@@ -28,7 +54,19 @@ const blog = await getBlogDetail(blogId as string);
     updatedDate: new Date(blog.updatedAt).toLocaleDateString('ja-JP'),
 }}>
   <main set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
+  <div>{JSON.stringify(test_ogp)}</div>
+  <div id="test"></div>
+  <div>{JSON.stringify(urls)}</div>
+  <div>{JSON.stringify(temps)}</div>
+  <div>{JSON.stringify(cardDatas)}</div>
 </Layout>
+<script>
+import { unfurl } from 'unfurl.js';
+  const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
+
+const test_ogp2 = unfurl(test_url);
+document.getElementById("test").innerHTML=JSON.stringify(test_ogp2);
+</script>
 <script>
   import "lazysizes";
 </script>
