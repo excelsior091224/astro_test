@@ -1,9 +1,9 @@
 ---
 import Layout from "../../layouts/BlogPost.astro";
 import { getAllBlogs, getBlogDetail } from "../../library/microcms";
+import BlogMain from "../../components/BlogMain";
 import pkg from 'microcms-richedit-processer';
 const { processer } = pkg;
-import ogs from 'open-graph-scraper';
 import { unfurl } from 'unfurl.js';
 
 // 生成する記事のIDを全て取得
@@ -47,25 +47,12 @@ urls.map( (url) => {
     updatedDate: new Date(blog.updatedAt).toLocaleDateString('ja-JP'),
 }}>
   <main id="main" data-urls={urls} set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
+  <BlogMain content={blog.content}/>
   <div>{JSON.stringify(test_ogp)}</div>
   <div>{typeof(urls)}</div>
   <div>{Array.isArray(urls)}</div>
   <div>{JSON.stringify(urls)}</div>
 </Layout>
-<script>
-  const urls = this.dataset.urls;
-  let mainhtml = document.getElementById("main").innerHTML;
-  if (Array.isArray(urls)) {
-urls.map( (url) => {
-  async ()=>{
-  result = await unfurl(url);
-  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
-  rp_str = `<a href=${result.open_graph.url} target: "_blank" rel: "noopener nofollow"><div><img src=${result.open_graph.images.url} alt="" /></div><div><p>${result.open_graph.title && result.open_graph.title}</p><div><p>${result.open_graph.description && result.open_graph.description}</p></div></div></a>`;
-  mainhtml = mainhtml.replace(regexp,rp_str);
-  }
-})
-}
-</script>
 <script>
   import "lazysizes";
 </script>

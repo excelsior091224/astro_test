@@ -1,30 +1,30 @@
 import { Window } from 'happy-dom'
-import ogs from 'open-graph-scraper';
+import { unfurl } from 'unfurl.js';
 import parse, { domToReact } from 'html-react-parser';
 
 const BlogCard = ({ cardData, children }: any) => {
-    //内部リンクか外部リンク化判定
-    const blank = cardData.url.indexOf(import.meta.env.DOMEIN) === -1;
+    //内部リンクか外部リンク判定
+    const blank = cardData.url.indexOf("astro-test-b4j.pages.dev") === -1;
     const blankProp = blank
         ? {
             target: "_blank",
             rel: "noopener nofollow",
         }
         : {};
-    if (cardData.ogTitle) {
+    if (cardData.open_graph.title) {
         return (
-            <a href={cardData.ogUrl} {...blankProp}>
+            <a href={cardData.open_graph.url} {...blankProp}>
                 <div>
                     <img
-                        src={cardData.ogImage ? cardData.ogImage.url : "/noimage.png"}
+                        src={cardData.open_graph.images.url}
                         alt=""
                     />
                 </div>
                 <div>
-                    <p>{cardData.ogTitle && cardData.ogTitle}</p>
+                    <p>{cardData.open_graph.title && cardData.open_graph.title}</p>
                     <div>
                         <p>
-                            {cardData.ogDescription && cardData.ogDescription}
+                            {cardData.open_graph.description && cardData.open_graph.description}
                         </p>
                     </div>
                 </div>
@@ -43,19 +43,16 @@ export default function BlogContents(content: string) {
     const document = window.document;
     document.body.innerHTML = content;
     const links = document.querySelectorAll('a').map((data) => {
-        const url = data.getAttribute('href').indexOf('http') === -1 ? `${import.meta.env.DOMEIN}${data.getAttribute('href')}` : data.getAttribute('href');
+        const url = data.getAttribute('href').indexOf('http') === -1 ? `${"astro-test-b4j.pages.dev"}${data.getAttribute('href')}` : data.getAttribute('href');
         return { url: url }
     });
 
     let cardDatas: any[] = [];
     const temps: any = [];
-    links.map(async (link) => {
-        const options = { url: link.url };
-        ogs(options).then((data) => {
-            const { error, result, response } = data;
-            temps.push(result);
-        })
-    })
+    links.map( (url) => {async ()=>{
+      result=await unfurl(url);
+      temps.push(result);
+    }})
 
     cardDatas = temps.filter((temp: any) => temp !== undefined);
     //replaceオプションに渡す関数
