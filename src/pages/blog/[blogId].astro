@@ -48,6 +48,7 @@ const test_ogp = await unfurl(test_url);
 }}>
   <main id="main" set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
   <!--<BlogMain content={blog.content as string}/>-->
+  <BlogMain content={blog.content as string}/>
   <div>{typeof(blog.content)}</div>
   <div>{JSON.stringify(test_ogp)}</div>
 </Layout>
