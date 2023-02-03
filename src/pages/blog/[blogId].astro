@@ -28,10 +28,10 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 const test_ogp = await unfurl(test_url);
 
 const cardDatas: any[] = [];
-urls.map( (url) => {
+async ()=>{urls.map( (url) => {
   result = await unfurl(url);
   cardDatas.push(result);
-})
+})}
 
 urls.map((url) => {
   const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
