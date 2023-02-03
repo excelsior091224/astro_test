@@ -27,7 +27,7 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
 
 const test_ogp = await unfurl(test_url);
 
-if (urls) {
+if (Array.isArray(urls)) {
 urls.map( (url) => {
   async ()=>{
   result = await unfurl(url);
