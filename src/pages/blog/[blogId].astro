@@ -46,8 +46,8 @@ const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
     pubDate: new Date(blog.publishedAt).toLocaleDateString('ja-JP'),
     updatedDate: new Date(blog.updatedAt).toLocaleDateString('ja-JP'),
 }}>
-  <main id="main" data-urls={urls} set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
-  <BlogMain content={blog.content as string}/>
+  <main id="main" set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
+  <!--<BlogMain content={blog.content as string}/>-->
   <div>{JSON.stringify(test_ogp)}</div>
   <div>{typeof(urls)}</div>
   <div>{Array.isArray(urls)}</div>
