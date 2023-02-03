@@ -24,7 +24,7 @@ const blog = await getBlogDetail(blogId as string);
 
 const window = new Window();
 const document = window.document;
-document.body.innerHTML = content;
+document.body.innerHTML = blog.content;
 const links = document.querySelectorAll('a').map((data) => {
 const url = data.getAttribute('href').indexOf('http') === -1 ? `${"astro-test-b4j.pages.dev"}${data.getAttribute('href')}` : data.getAttribute('href');
 return url
