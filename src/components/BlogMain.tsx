@@ -101,6 +101,6 @@ export default function BlogContents(content: string) {
   // }
 
   return (
-    <main>{parse(content)}</main>
+    <main>{typeof(content)}</main>
   );
 }
