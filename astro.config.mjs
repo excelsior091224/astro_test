@@ -17,5 +17,12 @@ export default defineConfig({
     compat: true
   })],
   output: "server",
-  adapter: cloudflare()
+  adapter: cloudflare({ mode: 'directory' }),
+
+  vite: {
+    define: {
+      'process.env.MICROCMS_SERVICE_DOMAIN': import.meta.env.MICROCMS_SERVICE_DOMAIN,
+      'process.env.MICROCMS_API_KEY': import.meta.env.MICROCMS_API_KEY,
+    },
+  },
 });
