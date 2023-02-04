@@ -5,10 +5,33 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
 //microCMS呼び出し
-import { getAllBlogs } from "../library/microcms";
+// import { getAllBlogs } from "../library/microcms";
+import { createClient } from "microcms-js-sdk";
+import type { MicroCMSQueries } from "microcms-js-sdk";
+import type { Blog, BlogResponse } from "../library/microcms";
 
-// const { contents: posts } = await getAllBlogs({ fields: ["id", "title", "publishedAt"] , orders:'-publishedAt'});
-const { contents: posts, totalCount } = await getAllBlogs({ orders:'-publishedAt'});
+const client = createClient({
+  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: import.meta.env.MICROCMS_API_KEY,
+});
+
+export const getBlogs = async (queries?: MicroCMSQueries) => {
+  const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
+
+  if (data.offset + data.limit < data.totalCount) {
+    queries ? (queries.offset = data.offset + data.limit) : "";
+    const result: BlogResponse = await getBlogs(queries);
+    return {
+      offset: result.offset,
+      limit: result.limit,
+      contents: [...data.contents, ...result.contents],
+      totalCount: result.totalCount,
+    };
+  }
+  return data;
+};
+
+const { contents: posts, totalCount } = await getBlogs({ orders:'-publishedAt'});
 
 
 // // Use Astro.glob() to fetch all posts, and then sort them by date.
@@ -58,26 +81,6 @@ const { contents: posts, totalCount } = await getAllBlogs({ orders:'-publishedAt
 				</ul>
 			</section>
 		</main>
-		<!-- <main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<time datetime={post.frontmatter.pubDate}>
-									{new Date(post.frontmatter.pubDate).toLocaleDateString('en-us', {
-										year: 'numeric',
-										month: 'short',
-										day: 'numeric',
-									})}
-								</time>
-								<a href={post.url}>{post.frontmatter.title}</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main> -->
 		<Footer />
 	</body>
 </html>
