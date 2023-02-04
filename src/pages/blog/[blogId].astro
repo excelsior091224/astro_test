@@ -2,10 +2,10 @@
 import Layout from "../../layouts/BlogPost.astro";
 import { getAllBlogs, getBlogDetail } from "../../library/microcms";
 import BlogMain from "../../components/BlogMain";
-import pkg from 'microcms-richedit-processer';
+import pkg from "microcms-richedit-processer";
 const { processer } = pkg;
-import { unfurl } from 'unfurl.js';
-import { Window } from 'happy-dom';
+import { unfurl } from "unfurl.js";
+import { Window } from "happy-dom";
 
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
@@ -22,24 +22,65 @@ export async function getStaticPaths() {
 const { blogId } = Astro.params;
 const blog = await getBlogDetail(blogId as string);
 
-const window = new Window();
-const document = window.document;
-document.body.innerHTML = blog.content;
-const links = document.querySelectorAll('a').map((data) => {
-const url = data.getAttribute('href').indexOf('http') === -1 ? `${"astro-test-b4j.pages.dev"}${data.getAttribute('href')}` : data.getAttribute('href');
-return url
-});
+// const window = new Window();
+// const document = window.document;
+// document.body.innerHTML = blog.content;
+// const links = document.querySelectorAll("a").map((data) => {
+//   const url =
+//     data.getAttribute("href").indexOf("http") === -1
+//       ? `${"astro-test-b4j.pages.dev"}${data.getAttribute("href")}`
+//       : data.getAttribute("href");
+//   return url;
+// });
 
-let cardDatas: any[] = [];
-const temps: any = [];
-links.map((url) => {
-async () => {
-const result = await unfurl(url);
-temps.push(result);
-}
-})
+// let cardDatas: any[] = [];
+// const temps: any = [];
+// links.map((url) => {
+//   async () => {
+//     const result = await unfurl(url);
+//     temps.push(result);
+//   };
+// });
 
-cardDatas = temps.filter((temp: any) => temp !== undefined);
+// cardDatas = temps.filter((temp: any) => temp !== undefined);
+
+// const BlogCard = ({ cardData, children }: any) => {
+//   //内部リンクか外部リンク判定
+//   const blank = cardData.url.indexOf("astro-test-b4j.pages.dev") === -1;
+//   if (cardData.open_graph.title) {
+//     return `<a href=${
+//       cardData.open_graph.url
+//     } target: "_blank" rel: "noopener nofollow"><div><img src="${
+//       cardData.open_graph.images.url
+//     }" alt=""/></div><div><p>${
+//       cardData.open_graph.title && cardData.open_graph.title
+//     }</p><div><p>${
+//       cardData.open_graph.description && cardData.open_graph.description
+//     }</p></div></div></a>`;
+//   }
+//   return `<a href=${cardData.ogUrl}>
+//             ${children}
+//         </a>`;
+// };
+
+// for (const url of links) {
+//   blog.content.replaceAll(new RegExp(`<a href="${url}".*?>(.*?)</a>`,'i'))
+// }
+
+// document.querySelectorAll("a").map((a_tag) => {
+//   if (a_tag.parentNode.childNodes.length === 1) {
+//     const indexOfUrl = cardDatas.findIndex((obj) => {
+//       return obj.url.indexOf(a_tag.getAttribute("href")) != -1;
+//     });
+//     return BlogCard({
+//       cardData: cardDatas[indexOfUrl],
+//       children: a_tag.children.toString(),
+//     });
+//   }
+//   return null;
+// });
+
+// blog.content = document.documentElement.outerHTML;
 
 //const urls = blog.content.match(/(?<=<(p|br)>)(http.*?)(?=<(\/p|br)>)/g);
 
@@ -59,14 +100,19 @@ cardDatas = temps.filter((temp: any) => temp !== undefined);
 //}
 ---
 
-<Layout content={{
+<Layout
+  content={{
     title: blog.title,
-    description: '',
-    heroImage: blog.eyecatch?.url ?? '',
-    pubDate: new Date(blog.publishedAt).toLocaleDateString('ja-JP'),
-    updatedDate: new Date(blog.updatedAt).toLocaleDateString('ja-JP'),
-}}>
-  <main id="main" set:html={processer(blog.content, { img: { parameters: { fm: 'webp' } } })} />
+    description: "",
+    heroImage: blog.eyecatch?.url ?? "",
+    pubDate: new Date(blog.publishedAt).toLocaleDateString("ja-JP"),
+    updatedDate: new Date(blog.updatedAt).toLocaleDateString("ja-JP"),
+  }}
+>
+  <main
+    id="main"
+    set:html={processer(blog.content, { img: { parameters: { fm: "webp" } } })}
+  />
   <!--<BlogMain content={blog.content as string}/>-->
   <!-- <BlogMain blogId={blogId as string}/> -->
   <!-- <div>{typeof(blog.content)}</div>

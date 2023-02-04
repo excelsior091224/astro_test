@@ -8,7 +8,14 @@ import sitemap from '@astrojs/sitemap';
 import preact from "@astrojs/preact";
 
 // https://astro.build/config
+import cloudflare from "@astrojs/cloudflare";
+
+// https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap(), preact({compat: true,})]
+  integrations: [mdx(), sitemap(), preact({
+    compat: true
+  })],
+  output: "server",
+  adapter: cloudflare()
 });
