@@ -109,9 +109,13 @@ const blog = await getBlogDetail(blogId as string);
     updatedDate: new Date(blog.updatedAt).toLocaleDateString("ja-JP"),
   }}
 >
-  <main
+  <!-- <main
     id="main"
     set:html={processer(blog.content, { img: { parameters: { fm: "webp" } } })}
+  /> -->
+  <main
+    id="main"
+    set:html={blog.content}
   />
   <!--<BlogMain content={blog.content as string}/>-->
   <!-- <BlogMain blogId={blogId as string}/> -->
