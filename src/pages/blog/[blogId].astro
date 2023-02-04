@@ -31,10 +31,7 @@ export const getBlogs = async (queries?: MicroCMSQueries) => {
   return data;
 };
 
-export const getBlogDetail = async (
-  contentId: string,
-  queries?: MicroCMSQueries
-) => {
+export const getBlogDetail = async (contentId: string, queries?: MicroCMSQueries) => {
   return await client.getListDetail<Blog>({
     endpoint: "blogs",
     contentId,
@@ -45,7 +42,7 @@ export const getBlogDetail = async (
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
   // const response = await getAllBlogs({ fields: ["id"] });
-  const response = await getBlogs({ orders:'-publishedAt'});
+  const response = await getBlogs({ fields: ["id"], orders:'-publishedAt'});
   return response.contents.map((content: any) => ({
     params: {
       blogId: content.id,
