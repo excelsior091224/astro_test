@@ -16,13 +16,13 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), preact({
     compat: true
   })],
-  output: "server",
-  adapter: cloudflare(),
+  // output: "server",
+  // adapter: cloudflare(),
 
-  vite: {
-    define: {
-      'process.env.MICROCMS_SERVICE_DOMAIN': process.env.MICROCMS_SERVICE_DOMAIN,
-      'process.env.MICROCMS_API_KEY': process.env.MICROCMS_API_KEY,
-    },
-  },
+  // vite: {
+  //   define: {
+  //     'process.env.MICROCMS_SERVICE_DOMAIN': process.env.MICROCMS_SERVICE_DOMAIN,
+  //     'process.env.MICROCMS_API_KEY': process.env.MICROCMS_API_KEY,
+  //   },
+  // },
 });

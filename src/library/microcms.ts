@@ -47,23 +47,6 @@ export const getBlogs = async (queries?: MicroCMSQueries) => {
   return data;
 };
 
-// // export const getAllBlogs = async (queries: MicroCMSQueries={limit:10, offset:0}) => {
-// export const getAllBlogs = async (queries?: MicroCMSQueries) => {
-//   const data = await client.get<BlogResponse>({ endpoint: "blogs", queries})
-
-//   if (data.offset + data.limit < data.totalCount) {
-//     const result:BlogResponse = await getAllBlogs({limit:data.limit, offset:data.offset + data.limit})
-//     return {
-//         offset:result.offset,
-//         limit:result.limit,
-//         contents: [...data.contents, ...result.contents],
-//         totalCount: result.totalCount,
-//       };
-//   }
-
-//   return data
-// };
-
 export const getBlogDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
