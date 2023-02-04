@@ -17,7 +17,7 @@ export default defineConfig({
     compat: true
   })],
   output: "server",
-  adapter: cloudflare({ mode: 'directory' }),
+  adapter: cloudflare(),
 
   vite: {
     define: {
