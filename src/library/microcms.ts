@@ -10,6 +10,13 @@ const client = createClient({
   // apiKey: "process.env.MICROCMS_API_KEY",
 });
 
+export const clientFactoryFunction = () => {
+  return {
+    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+    apiKey: import.meta.env.MICROCMS_API_KEY,
+  }
+}
+
 export type Blog = {
   id: string;
   createdAt: string;
@@ -32,10 +39,7 @@ export type BlogResponse = {
 };
 
 export const getBlogs = async (queries?: MicroCMSQueries) => {
-  const client = createClient({
-    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: import.meta.env.MICROCMS_API_KEY,
-  });
+  const client = createClient(clientFactoryFunction());
   const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
 
   if (data.offset + data.limit < data.totalCount) {
@@ -55,10 +59,7 @@ export const getBlogDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-  const client = createClient({
-    serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: import.meta.env.MICROCMS_API_KEY,
-  });
+  const client = createClient(clientFactoryFunction());
   return await client.getListDetail<Blog>({
     endpoint: "blogs",
     contentId,
