@@ -16,8 +16,8 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), preact({
     compat: true
   })],
-  output: "server",
-  adapter: cloudflare(),
+  //output: "server",
+  //adapter: cloudflare(),
 
   // vite: {
   //   define: {
