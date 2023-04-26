@@ -1,8 +1,8 @@
 import { createClient, MicroCMSQueries } from "microcms-js-sdk";
-// const client = createClient({
-//   serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-//   apiKey: import.meta.env.MICROCMS_API_KEY,
-// });
+const client = createClient({
+  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: import.meta.env.MICROCMS_API_KEY,
+});
 import { Cache, CacheContainer } from "node-ts-cache";
 import { MemoryStorage } from "node-ts-cache-storage-memory";
 
@@ -39,7 +39,7 @@ class CMSBlog {
   @Cache(userCache, { ttl: 300 })
 // export const getBlogs = async (queries?: MicroCMSQueries) => {
   public async getBlogs(queries?: MicroCMSQueries){
-    const client = clientFactoryFunction();
+    // const client = clientFactoryFunction();
     const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
 
     if (data.offset + data.limit < data.totalCount) {
