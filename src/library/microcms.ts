@@ -1,19 +1,8 @@
 import { createClient, MicroCMSQueries } from "microcms-js-sdk";
-const client = createClient({
-  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-  apiKey: import.meta.env.MICROCMS_API_KEY,
-});
-// import { Cache, CacheContainer } from "node-ts-cache";
-// import { MemoryStorage } from "node-ts-cache-storage-memory";
-
-// const userCache = new CacheContainer(new MemoryStorage());
-
-// const clientFactoryFunction = () => {
-//   return createClient({
-//     serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-//     apiKey: import.meta.env.MICROCMS_API_KEY,
-//   });
-// }
+// const client = createClient({
+//   serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+//   apiKey: import.meta.env.MICROCMS_API_KEY,
+// });
 
 // Cloudflare Pages SSR用関数
 import { getRuntime } from "@astrojs/cloudflare/runtime";

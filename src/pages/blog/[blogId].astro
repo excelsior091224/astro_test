@@ -5,43 +5,9 @@ const { processer } = pkg;
 
 //microCMS呼び出し
 import { getBlogs } from "../../library/microcms";
-// import { cmsBlog } from "../../library/microcms";
-// import { createClient } from "microcms-js-sdk";
-// import type { MicroCMSQueries } from "microcms-js-sdk";
-// import type { Blog, BlogResponse } from "../../library/microcms";
-
-// const client = createClient({
-// 	serviceDomain: 'process.env.MICROCMS_SERVICE_DOMAIN',
-// 	apiKey: 'process.env.MICROCMS_API_KEY',
-// });
-
-// export const getBlogs = async (queries?: MicroCMSQueries) => {
-//   const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
-
-//   if (data.offset + data.limit < data.totalCount) {
-//     queries ? (queries.offset = data.offset + data.limit) : "";
-//     const result: BlogResponse = await getBlogs(queries);
-//     return {
-//       offset: result.offset,
-//       limit: result.limit,
-//       contents: [...data.contents, ...result.contents],
-//       totalCount: result.totalCount,
-//     };
-//   }
-//   return data;
-// };
-
-// export const getBlogDetail = async (contentId: string,queries?: MicroCMSQueries) => {
-//   return await client.getListDetail<Blog>({
-//     endpoint: "blogs",
-//     contentId,
-//     queries,
-//   });
-// };
 
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
-  // const response = await getAllBlogs({ fields: ["id"] });
   const response = await getBlogs(Astro.request,{ orders: "-publishedAt" });
   return response.contents.map((content: any) => ({
     params: {
@@ -56,7 +22,6 @@ export async function getStaticPaths() {
 //記事の詳細情報を取得
 const { blogId } = Astro.params;
 const { blog } = Astro.props;
-// const blog = await getBlogDetail(blogId as string);
 ---
 
 <Layout
@@ -73,10 +38,6 @@ const { blog } = Astro.props;
     set:html={processer(blog.content, { img: { parameters: { fm: "webp" } } })}
   />
   <!-- <main id="main" set:html={blog.content} /> -->
-  <!--<BlogMain content={blog.content as string}/>-->
-  <!-- <BlogMain blogId={blogId as string}/> -->
-  <!-- <div>{typeof(blog.content)}</div>
-  <div>{JSON.stringify(test_ogp)}</div> -->
 </Layout>
 <script>
   import "lazysizes";
