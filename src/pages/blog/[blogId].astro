@@ -1,12 +1,11 @@
 ---
 import Layout from "../../layouts/BlogPost.astro";
-import BlogMain from "../../components/BlogMain";
 import pkg from "microcms-richedit-processer";
 const { processer } = pkg;
 
 //microCMS呼び出し
-// import { getBlogs, getBlogDetail } from "../../library/microcms";
-import { cmsBlog } from "../../library/microcms";
+import { getBlogs } from "../../library/microcms";
+// import { cmsBlog } from "../../library/microcms";
 // import { createClient } from "microcms-js-sdk";
 // import type { MicroCMSQueries } from "microcms-js-sdk";
 // import type { Blog, BlogResponse } from "../../library/microcms";
@@ -43,7 +42,7 @@ import { cmsBlog } from "../../library/microcms";
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
   // const response = await getAllBlogs({ fields: ["id"] });
-  const response = await cmsBlog.getBlogs({ orders: "-publishedAt" });
+  const response = await getBlogs(Astro.request,{ orders: "-publishedAt" });
   return response.contents.map((content: any) => ({
     params: {
       blogId: content.id,
@@ -58,83 +57,6 @@ export async function getStaticPaths() {
 const { blogId } = Astro.params;
 const { blog } = Astro.props;
 // const blog = await getBlogDetail(blogId as string);
-
-// const window = new Window();
-// const document = window.document;
-// document.body.innerHTML = blog.content;
-// const links = document.querySelectorAll("a").map((data) => {
-//   const url =
-//     data.getAttribute("href").indexOf("http") === -1
-//       ? `${"astro-test-b4j.pages.dev"}${data.getAttribute("href")}`
-//       : data.getAttribute("href");
-//   return url;
-// });
-
-// let cardDatas: any[] = [];
-// const temps: any = [];
-// links.map((url) => {
-//   async () => {
-//     const result = await unfurl(url);
-//     temps.push(result);
-//   };
-// });
-
-// cardDatas = temps.filter((temp: any) => temp !== undefined);
-
-// const BlogCard = ({ cardData, children }: any) => {
-//   //内部リンクか外部リンク判定
-//   const blank = cardData.url.indexOf("astro-test-b4j.pages.dev") === -1;
-//   if (cardData.open_graph.title) {
-//     return `<a href=${
-//       cardData.open_graph.url
-//     } target: "_blank" rel: "noopener nofollow"><div><img src="${
-//       cardData.open_graph.images.url
-//     }" alt=""/></div><div><p>${
-//       cardData.open_graph.title && cardData.open_graph.title
-//     }</p><div><p>${
-//       cardData.open_graph.description && cardData.open_graph.description
-//     }</p></div></div></a>`;
-//   }
-//   return `<a href=${cardData.ogUrl}>
-//             ${children}
-//         </a>`;
-// };
-
-// for (const url of links) {
-//   blog.content.replaceAll(new RegExp(`<a href="${url}".*?>(.*?)</a>`,'i'))
-// }
-
-// document.querySelectorAll("a").map((a_tag) => {
-//   if (a_tag.parentNode.childNodes.length === 1) {
-//     const indexOfUrl = cardDatas.findIndex((obj) => {
-//       return obj.url.indexOf(a_tag.getAttribute("href")) != -1;
-//     });
-//     return BlogCard({
-//       cardData: cardDatas[indexOfUrl],
-//       children: a_tag.children.toString(),
-//     });
-//   }
-//   return null;
-// });
-
-// blog.content = document.documentElement.outerHTML;
-
-//const urls = blog.content.match(/(?<=<(p|br)>)(http.*?)(?=<(\/p|br)>)/g);
-
-// const test_url = "https://www.vermilion3.xyz/posts/rfusue_cv/";
-
-// const test_ogp = await unfurl(test_url);
-
-//if (Array.isArray(urls)) {
-//urls.map( (url) => {
-//  async ()=>{
-//result = await unfurl(url);
-//  const regexp = new RegExp(`(?<=<(p|br)>)${url}(?=<(\/p|br)>)`,"g");
-//  rp_str = `<a href=${result.open_graph.url} target: "_blank" rel: "noopener nofollow"><div><img src=${result.open_graph.images.url} alt="" /></div><div><p>${result.open_graph.title && result.open_graph.title}</p><div><p>${result.open_graph.description && result.open_graph.description}</p></div></div></a>`;
-//  blog.content = blog.content.replace(regexp,rp_str);
-//  }
-//})
-//}
 ---
 
 <Layout
@@ -146,11 +68,11 @@ const { blog } = Astro.props;
     updatedDate: new Date(blog.updatedAt).toLocaleDateString("ja-JP"),
   }}
 >
-  <!-- <main
+  <main
     id="main"
     set:html={processer(blog.content, { img: { parameters: { fm: "webp" } } })}
-  /> -->
-  <main id="main" set:html={blog.content} />
+  />
+  <!-- <main id="main" set:html={blog.content} /> -->
   <!--<BlogMain content={blog.content as string}/>-->
   <!-- <BlogMain blogId={blogId as string}/> -->
   <!-- <div>{typeof(blog.content)}</div>
