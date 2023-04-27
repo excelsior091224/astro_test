@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/BlogPost.astro";
-import pkg from "microcms-richedit-processer";
-const { processer } = pkg;
+// import pkg from "microcms-richedit-processer";
+// const { processer } = pkg;
 
 //microCMS呼び出し
 import { getBlogs } from "../../library/microcms";
@@ -33,11 +33,11 @@ const { blog } = Astro.props;
     updatedDate: new Date(blog.updatedAt).toLocaleDateString("ja-JP"),
   }}
 >
-  <main
+  <!-- <main
     id="main"
     set:html={processer(blog.content, { img: { parameters: { fm: "webp" } } })}
-  />
-  <!-- <main id="main" set:html={blog.content} /> -->
+  /> -->
+  <main id="main" set:html={blog.content} />
 </Layout>
 <script>
   import "lazysizes";
