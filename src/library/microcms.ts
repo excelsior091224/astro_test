@@ -58,16 +58,17 @@ export const getBlogs = async (request: Request, queries?: MicroCMSQueries) => {
   return data;
 };
 
-// export const getBlogDetail = async (
-//   contentId: string,
-//   queries?: MicroCMSQueries
-// ) => {
-//   const client = clientFactoryFunction();
-//   return await client.getListDetail<Blog>({
-//     endpoint: "blogs",
-//     contentId,
-//     queries,
-//   });
-// };
+export const getBlogDetail = async (
+  request: Request,
+  contentId: string,
+  queries?: MicroCMSQueries
+) => {
+  const client = generateClient(request);
+  return await client.getListDetail<Blog>({
+    endpoint: "blogs",
+    contentId,
+    queries,
+  });
+};
 // };
 // export const cmsBlog = new CMSBlog();

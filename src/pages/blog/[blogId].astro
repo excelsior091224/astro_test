@@ -4,7 +4,7 @@ import Layout from "../../layouts/BlogPost.astro";
 // const { processer } = pkg;
 
 //microCMS呼び出し
-import { getBlogs } from "../../library/microcms";
+import { getBlogs,getBlogDetail } from "../../library/microcms";
 
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
@@ -21,7 +21,8 @@ export async function getStaticPaths() {
 
 //記事の詳細情報を取得
 const { blogId } = Astro.params;
-const { blog } = Astro.props;
+// const { blog } = Astro.props;
+const blog = await getBlogDetail(Astro.request,blogId as string);
 ---
 
 <Layout
