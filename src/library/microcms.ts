@@ -1,21 +1,14 @@
 import { createClient, MicroCMSQueries } from "microcms-js-sdk";
-// const client = createClient({
-//   serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-//   apiKey: import.meta.env.MICROCMS_API_KEY,
-// });
+export const client = createClient({
+  // serviceDomain: import.meta.env.PUBLIC_MICROCMS_SERVICE_DOMAIN,
+  // apiKey: import.meta.env.PUBLIC_MICROCMS_API_KEY,
+  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: import.meta.env.MICROCMS_API_KEY,
+});
+import { Cache, CacheContainer } from "node-ts-cache";
+import { MemoryStorage } from "node-ts-cache-storage-memory";
 
-// Cloudflare Pages SSR用関数
-import { getRuntime } from "@astrojs/cloudflare/runtime";
-const generateClient = (request: Request) => {
-  // runtimeの中にはenvの他、KVなど他のサービスなどがコンテキストとして入ってくる
-  const runtime = getRuntime(request);
-  //@ts-expect-error envの型は適宜調整
-  const { MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY } = runtime.env;
-  return createClient({
-    serviceDomain: MICROCMS_SERVICE_DOMAIN,
-    apiKey: MICROCMS_API_KEY,
-  });
-};
+const userCache = new CacheContainer(new MemoryStorage());
 
 export type Blog = {
   id: string;
@@ -30,6 +23,14 @@ export type Blog = {
     height: number;
     width: number;
   };
+  category: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    revisedAt: string;
+    name: string;
+  };
 };
 export type BlogResponse = {
   totalCount: number;
@@ -37,38 +38,60 @@ export type BlogResponse = {
   limit: number;
   contents: Blog[];
 };
-// class CMSBlog {
-//   @Cache(userCache, { ttl: 300 })
-export const getBlogs = async (request: Request, queries?: MicroCMSQueries) => {
-  // public async getBlogs(queries?: MicroCMSQueries){
-  // const client = clientFactoryFunction();
-  const client = generateClient(request);
-  const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
+export type Category = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  name: string;
+};
+export type CategoryResponse = {
+  totalCount: number;
+  offset: number;
+  limit: number;
+  contents: Category[];
+};
+export type Link = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  title: string;
+  url: string;
+};
+export type LinkResponse = {
+  totalCount: number;
+  offset: number;
+  limit: number;
+  contents: Link[];
+};
 
-  if (data.offset + data.limit < data.totalCount) {
-    queries ? (queries.offset = data.offset + data.limit) : "";
-    const result: BlogResponse = await getBlogs(request, queries);
-    return {
-      offset: result.offset,
-      limit: result.limit,
-      contents: [...data.contents, ...result.contents],
-      totalCount: result.totalCount,
-    };
+class CMSBlog {
+  @Cache(userCache, { ttl: 300 })
+  // export const getBlogs = async (queries?: MicroCMSQueries) => {
+  public async getBlogs(queries?: MicroCMSQueries) {
+    const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
+
+    if (data.offset + data.limit < data.totalCount) {
+      queries ? (queries.offset = data.offset + data.limit) : "";
+      const result: BlogResponse = await this.getBlogs(queries);
+      return {
+        offset: result.offset,
+        limit: result.limit,
+        contents: [...data.contents, ...result.contents],
+        totalCount: result.totalCount,
+      };
+    }
+    return data;
   }
-  return data;
-};
-
-export const getBlogDetail = async (
-  request: Request,
-  contentId: string,
-  queries?: MicroCMSQueries
-) => {
-  const client = generateClient(request);
-  return await client.getListDetail<Blog>({
-    endpoint: "blogs",
-    contentId,
-    queries,
-  });
-};
-// };
-// export const cmsBlog = new CMSBlog();
+  public async getBlogDetail(contentId: string, queries?: MicroCMSQueries) {
+    return await client.getListDetail<Blog>({
+      endpoint: "blogs",
+      contentId,
+      queries,
+    });
+  }
+}
+export const cmsBlog = new CMSBlog();

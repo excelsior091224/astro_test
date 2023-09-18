@@ -14,10 +14,11 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: 'https://astro-test-b4j.pages.dev/',
   integrations: [mdx(), sitemap(), preact({
-    compat: true
+    compat: true,
+    include: ['**/*[jt]sx']
   })],
-  output: "server",
-  adapter: cloudflare(),
+  // output: "server",
+  // adapter: cloudflare(),
 
   // vite: {
   //   define: {

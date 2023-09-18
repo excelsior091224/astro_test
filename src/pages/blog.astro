@@ -5,8 +5,8 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
 //microCMS呼び出し
-import { getBlogs } from "../library/microcms";
-// import { cmsBlog } from "../library/microcms";
+// import { getBlogs } from "../library/microcms";
+import { cmsBlog } from "../library/microcms";
 
 // import { createClient } from "microcms-js-sdk";
 // import type { MicroCMSQueries } from "microcms-js-sdk";
@@ -33,7 +33,7 @@ import { getBlogs } from "../library/microcms";
 //   return data;
 // };
 
-const { contents: posts, totalCount } = await getBlogs(Astro.request,{
+const { contents: posts, totalCount } = await cmsBlog.getBlogs({
   orders: "-publishedAt",
 });
 
