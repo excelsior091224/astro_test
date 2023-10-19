@@ -17,8 +17,10 @@ export default defineConfig({
     compat: true,
     include: ['**/*[jt]sx']
   })],
-  // output: "server",
-  // adapter: cloudflare(),
+  output: 'server',
+  adapter: cloudflare({
+   runtime: 'local',
+  }),
 
   // vite: {
   //   define: {

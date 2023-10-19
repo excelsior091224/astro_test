@@ -7,9 +7,11 @@ import Layout from "../../layouts/BlogPost.astro";
 // import { getBlogs,getBlogDetail } from "../../library/microcms";
 import { cmsBlog } from "../../library/microcms";
 
+const runtime = Astro.locals.runtime;
+
 // 生成する記事のIDを全て取得
 export async function getStaticPaths() {
-  const response = await cmsBlog.getBlogs({ orders: "-publishedAt" });
+  const response = await cmsBlog.getBlogs(runtime,{ orders: "-publishedAt" });
   return response.contents.map((content: any) => ({
     params: {
       blogId: content.id,

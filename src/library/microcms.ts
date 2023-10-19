@@ -1,10 +1,10 @@
-import { createClient, MicroCMSQueries } from "microcms-js-sdk";
-export const client = createClient({
-  // serviceDomain: import.meta.env.PUBLIC_MICROCMS_SERVICE_DOMAIN,
-  // apiKey: import.meta.env.PUBLIC_MICROCMS_API_KEY,
-  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-  apiKey: import.meta.env.MICROCMS_API_KEY,
-});
+import { createClient } from "microcms-js-sdk";
+import type { MicroCMSQueries } from "microcms-js-sdk";
+
+// export const client = createClient({
+//   serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
+//   apiKey: import.meta.env.MICROCMS_API_KEY,
+// });
 import { Cache, CacheContainer } from "node-ts-cache";
 import { MemoryStorage } from "node-ts-cache-storage-memory";
 
@@ -71,12 +71,20 @@ export type LinkResponse = {
 class CMSBlog {
   @Cache(userCache, { ttl: 300 })
   // export const getBlogs = async (queries?: MicroCMSQueries) => {
-  public async getBlogs(queries?: MicroCMSQueries) {
+  public async getBlogs(runtime?:any,queries?: MicroCMSQueries) {
+
+    const serviceDomain = runtime ? runtime.env.MICROCMS_SERVICE_DOMAIN: import.meta.env.MICROCMS_SERVICE_DOMAIN;
+    const apiKey = runtime ? runtime.env.MICROCMS_API_KEY: import.meta.env.MICROCMS_API_KEY;
+    const client = createClient({
+      serviceDomain: serviceDomain,
+      apiKey: apiKey,
+    });
+    
     const data = await client.get<BlogResponse>({ endpoint: "blogs", queries });
 
     if (data.offset + data.limit < data.totalCount) {
       queries ? (queries.offset = data.offset + data.limit) : "";
-      const result: BlogResponse = await this.getBlogs(queries);
+      const result: BlogResponse = await this.getBlogs(runtime,queries);
       return {
         offset: result.offset,
         limit: result.limit,
@@ -86,7 +94,15 @@ class CMSBlog {
     }
     return data;
   }
-  public async getBlogDetail(contentId: string, queries?: MicroCMSQueries) {
+  public async getBlogDetail(contentId: string, runtime?:any,queries?: MicroCMSQueries) {
+
+    const serviceDomain = runtime ? runtime.env.MICROCMS_SERVICE_DOMAIN: import.meta.env.MICROCMS_SERVICE_DOMAIN;
+    const apiKey = runtime ? runtime.env.MICROCMS_API_KEY: import.meta.env.MICROCMS_API_KEY;
+    const client = createClient({
+      serviceDomain: serviceDomain,
+      apiKey: apiKey,
+    });
+    
     return await client.getListDetail<Blog>({
       endpoint: "blogs",
       contentId,
