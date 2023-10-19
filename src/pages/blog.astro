@@ -33,7 +33,9 @@ import { cmsBlog } from "../library/microcms";
 //   return data;
 // };
 
-const { contents: posts, totalCount } = await cmsBlog.getBlogs({
+const runtime = Astro.locals.runtime;
+
+const { contents: posts, totalCount } = await cmsBlog.getBlogs(runtime,{
   orders: "-publishedAt",
 });
 
