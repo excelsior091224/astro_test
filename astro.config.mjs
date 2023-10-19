@@ -19,7 +19,7 @@ export default defineConfig({
   })],
   output: 'server',
   adapter: cloudflare({
-   runtime: 'off',
+   runtime: 'local',
   }),
 
   // vite: {
